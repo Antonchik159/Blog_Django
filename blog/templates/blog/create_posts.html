@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+Новий пост
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.title }}<br>
+        {{ form.content }}<br>
+        <button type="submit" class="btn" style="background-color: #71a298; color: white;">Створити</button>
+    </form>
+{% endblock %}
