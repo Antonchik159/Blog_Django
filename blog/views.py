@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Author
-from .forms import PostForm, AuthorForm
+from .models import Post, Author, Comment
+from .forms import PostForm, AuthorForm, CommentForm
 
 # Create your views here.
 def index(request):
@@ -40,7 +40,23 @@ def edit_post(request, item_id):
     
 def show_det_post(request, item_id):
     postss = get_object_or_404(Post, id=item_id)
-    return render(request, 'blog/post_detail.html', {'posts': postss})
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+                comment = form.save(commit=False)
+                comment.post = postss
+                comment.save()
+                return redirect('show_detpost', item_id=item_id)
+    else:
+        form = CommentForm(initial={'post': postss})
+    
+    context = {
+        'posts': postss,
+        'comments': postss.get_comments(),
+        'form': form,
+    }
+        
+    return render(request, 'blog/post_detail.html', context)
 
 def show_det_author(request, item_id):
     author = get_object_or_404(Author, id=item_id)
@@ -59,3 +75,15 @@ def create_author(request):
     form = AuthorForm()
     context = {'form': form}
     return render(request, 'blog/create_author.html', context)
+
+def create_comment(request):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+        else:
+            return redirect('home')
+    form = CommentForm()
+    context = {'form': form}
+    return redirect(request)

@@ -8,7 +8,7 @@
     {% if posts %}
     <div class="d-flex flex-wrap gap-3 justify-content-start">
         {% for i in posts %}
-            <div class="card mb-3 mt-4 p-4 rounded shadow" style="width: 300px;"">
+            <div class="card mb-3 mt-4 p-4 rounded shadow" style="width: 300px;">
                     <center><h3 class="alert-heading"><a href="{% url 'show_detpost' i.id %}" style="text-decoration: none; color: inherit;">{{ i.title }}</h3></center>
                     <p>{{ i.author.name }}</p>
                     {{ i.published_date }}

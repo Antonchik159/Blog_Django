@@ -1,5 +1,5 @@
-from .models import Post, Author
-from django.forms import ModelForm, TextInput, DateTimeInput, Textarea, FileInput, Select
+from .models import Post, Author, Comment
+from django.forms import ModelForm, TextInput, DateTimeInput, Textarea, FileInput, Select, HiddenInput
 
 class PostForm(ModelForm):
     class Meta:
@@ -40,5 +40,22 @@ class AuthorForm(ModelForm):
             "bio": Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'Біо'
+            })
+        }
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["post", "author_name", "text"]
+        widgets = {
+            "post": HiddenInput(),
+            "author_name": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ім’я'
+            }),
+            "text": Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'текст коментаря',
+                'style': 'height: 100px;'
             })
         }
