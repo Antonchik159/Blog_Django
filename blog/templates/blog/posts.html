@@ -11,7 +11,7 @@
             <div class="card mb-3 mt-4 p-4 rounded shadow" style="width: 300px;">
                     <center><h3 class="alert-heading"><a href="{% url 'show_detpost' i.id %}" style="text-decoration: none; color: inherit;">{{ i.title }}</h3></center>
                     <p>{{ i.author.name }}</p>
-                    {{ i.published_date }}
+                    <p style="font-size: small;">{{ i.published_date }}</p>
                     
                     
             </div>
